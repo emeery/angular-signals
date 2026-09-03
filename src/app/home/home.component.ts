@@ -19,5 +19,6 @@ import {toObservable, toSignal, outputToObservable, outputFromObservable} from "
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
+    courses = signal<Course[]>([]);
+    coursesService = inject(CoursesService);
 }
