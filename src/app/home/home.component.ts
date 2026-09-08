@@ -1,5 +1,5 @@
 import {Component, computed, inject, signal} from "@angular/core";
-import {CoursesServiceWithFetch} from "../services/courses-fetch.service"
+import {CoursesService} from "../services/courses.service"
 import {Course } from "../models/course.model";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.component";
@@ -17,7 +17,7 @@ import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.c
 })
 export class HomeComponent {
     courses = signal<Course[]>([]);
-    coursesService = inject(CoursesServiceWithFetch);
+    coursesService = inject(CoursesService);
 
     constructor() {
         this.loadCourses().then(() => {
