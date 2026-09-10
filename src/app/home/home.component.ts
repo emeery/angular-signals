@@ -1,4 +1,4 @@
-import {Component, computed, inject, signal} from "@angular/core";
+import {Component, computed, inject, signal, effect} from "@angular/core";
 import {CoursesService} from "../services/courses.service"
 import {Course } from "../models/course.model";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
@@ -16,20 +16,33 @@ import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.c
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-    courses = signal<Course[]>([]);
+    #courses = signal<Course[]>([]);
     coursesService = inject(CoursesService);
+
+    beginnerCourses = computed(() => {
+        const courses = this.#courses();
+        return courses.filter(course => course.category === 'BEGINNER');
+    })
+
+    advancedCourses = computed(() => {
+        const courses = this.#courses();
+        return courses.filter(course => course.category === 'ADVANCED');
+    })
 
     constructor() {
         this.loadCourses().then(() => {
-            console.log('Courses loaded successfully', this.courses());
+            console.log('Courses loaded successfully', this.#courses());
         });
+        effect(() => {
+            console.log('courses',this.beginnerCourses());
+        })
     }
 
     async loadCourses() {
         try{
             console.log('helele');
             const courses = await this.coursesService.loadAllCourses();
-            this.courses.set(courses);
+            this.#courses.set(courses);
         } catch (error) {
             console.error('Error loading courses:', error);
         }
