@@ -41,10 +41,11 @@ export class HomeComponent {
     async loadCourses() {
         try{
             console.log('helele');
-            const courses = await this.coursesService.loadAllCourses();
+            const courses = await this.coursesService.loadCourses();
             this.#courses.set(courses.sort(sortCoursesBySeqNo));
         } catch (error) {
             console.error('Error loading courses:', error);
         }
     }
+
 }
