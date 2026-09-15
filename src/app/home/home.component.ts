@@ -48,4 +48,13 @@ export class HomeComponent {
         }
     }
 
+    onCourseUpdated(updateCourse: Course) {
+        console.log('upd cours',updateCourse  );
+        const courses = this.#courses();
+        const newCourses = courses.map(course => (
+            course.id === updateCourse.id ? updateCourse : course));
+        console.log('nne', newCourses);
+        this.#courses.set(newCourses);
+    }
+
 }

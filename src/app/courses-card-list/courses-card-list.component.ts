@@ -15,15 +15,17 @@ import { openEditCourseDialg } from '../edit-course-dialog/edit-course-dialog.co
 export class CoursesCardListComponent {
     courses = input<Course[]>();
     dialog = inject(MatDialog);
+    courseUpdated = output<Course>();
 
-    async onEdit(course: Course) {
+    async onEditCourse(course: Course) {
         const newCourse = await openEditCourseDialg(this.dialog, {
             mode: "update",
             title: "update existing course",
             course
         });
-
-        console.log('course edited', newCourse);
+        console.log('new course value',newCourse);
+        this.courseUpdated.emit(newCourse);
+        
     }
 }
 

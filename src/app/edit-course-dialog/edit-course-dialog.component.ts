@@ -44,8 +44,9 @@ export class EditCourseDialogComponent {
 
   async onSave() {
     const course = this.form.value as Partial<Course>;
-    console.log('cour',course);
+    
     if(this.data.mode === 'update') {
+      console.log('cour',course);
         this.saveCourse(this.data?.course!.id, course); // ! compilador aseguras que haya el objeto siempre existe
     }
   }
@@ -53,6 +54,7 @@ export class EditCourseDialogComponent {
   async saveCourse(courseId: string, changes: Partial<Course>) {
     try {
       const updatedCourse = await this.courseService.editCourse(courseId, changes);
+      console.log(updatedCourse);
       this.dialogRef.close(updatedCourse);
     } catch (error) {
       console.log('err', error);
