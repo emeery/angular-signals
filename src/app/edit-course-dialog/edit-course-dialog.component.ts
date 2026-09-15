@@ -21,9 +21,10 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './edit-course-dialog.component.scss'
 })
 export class EditCourseDialogComponent {  
-  dialogRef = inject(MatDialogRef);
   data: EditCourseDialogData = inject(MAT_DIALOG_DATA);
+  dialogRef = inject(MatDialogRef);
   fb = inject(FormBuilder);
+  courseService = inject(CoursesService);
 
   form = this.fb.group({
       title: [''],
@@ -39,6 +40,23 @@ export class EditCourseDialogComponent {
       category: this.data.course?.category,
       iconUrl: this.data.course?.iconUrl
     })
+  }
+
+  async onSave() {
+    const course = this.form.value as Partial<Course>;
+    console.log('cour',course);
+    if(this.data.mode === 'update') {
+        this.saveCourse(this.data?.course!.id, course); // ! compilador aseguras que haya el objeto siempre existe
+    }
+  }
+
+  async saveCourse(courseId: string, changes: Partial<Course>) {
+    try {
+      const updatedCourse = await this.courseService.editCourse(courseId, changes);
+      this.dialogRef.close(updatedCourse);
+    } catch (error) {
+      console.log('err', error);
+    }
   }
 
   onClose() {
