@@ -3,6 +3,8 @@ import {CoursesService} from "../services/courses.service"
 import {Course, sortCoursesBySeqNo } from "../models/course.model";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.component";
+import { MatDialog } from "@angular/material/dialog";
+import { openEditCourseDialg } from "../edit-course-dialog/edit-course-dialog.component";
 
 
 @Component({
@@ -18,6 +20,7 @@ import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.c
 export class HomeComponent {
     #courses = signal<Course[]>([]);
     coursesService = inject(CoursesService);
+    dialog = inject(MatDialog);
     
     beginnerCourses = computed(() => { // computed - transformar datos y filtrar arreglos
         const courses = this.#courses();
@@ -43,8 +46,8 @@ export class HomeComponent {
             console.log('helele');
             const courses = await this.coursesService.loadCourses();
             this.#courses.set(courses.sort(sortCoursesBySeqNo));
-        } catch (error) {
-            console.error('Error loading courses:', error);
+        } catch (err) {
+            console.error('Error loading courses:', err);
         }
     }
 
@@ -59,16 +62,28 @@ export class HomeComponent {
     async onCourseDeleted(courseId: string) {
         try {
             await this.coursesService.deleteCourse(courseId);
-            console.log('courseid', courseId);
             const courses = this.#courses();
-            console.log(courses);
             const newCourses = courses.filter(course => course.id !== courseId);
-            console.log('newCours', newCourses);
             this.#courses.set(newCourses);
         } catch (err) {
             console.error(err);
             alert('error deleting course')
         }
+    }
+
+    async onAddCourse() {
+        const newCourse = await openEditCourseDialg(
+            this.dialog,
+            {
+                mode: "create",
+                title: "create new course"
+            }
+        );
+        const newCourses = [
+            ...this.#courses(),
+            newCourse
+        ];
+        this.#courses.set(newCourses);
     }
 
 }
