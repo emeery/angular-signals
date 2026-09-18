@@ -10,6 +10,10 @@
         <div class="courses-actions">
             <button class="btn">View Course</button>
             <button class="btn" (click)="onEditCourse(course)">Edit</button>
+            &nbsp;
+            <button matFab (click)="onCourseDeleted(course)">
+        <mat-icon>delete</mat-icon>
+      </button>
         </div>
     </div>
 }

@@ -18,8 +18,8 @@ import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.c
 export class HomeComponent {
     #courses = signal<Course[]>([]);
     coursesService = inject(CoursesService);
-
-    beginnerCourses = computed(() => {
+    
+    beginnerCourses = computed(() => { // computed - transformar datos y filtrar arreglos
         const courses = this.#courses();
         return courses.filter(course => course.category === 'BEGINNER');
     })
@@ -33,9 +33,9 @@ export class HomeComponent {
         this.loadCourses().then(() => {
             console.log('Courses loaded successfully', this.#courses());
         });
-        effect(() => {
-            console.log('courses',this.beginnerCourses());
-        })
+        // effect(() => {
+        //     console.log('courses',this.beginnerCourses());
+        // })
     }
 
     async loadCourses() {
@@ -48,13 +48,27 @@ export class HomeComponent {
         }
     }
 
-    onCourseUpdated(updateCourse: Course) {
+    onCourseUpdated(updateCourse: Course) { // vuelve a renderizar el item actualizado 
         console.log('upd cours',updateCourse  );
         const courses = this.#courses();
         const newCourses = courses.map(course => (
             course.id === updateCourse.id ? updateCourse : course));
-        console.log('nne', newCourses);
         this.#courses.set(newCourses);
+    }
+
+    async onCourseDeleted(courseId: string) {
+        try {
+            await this.coursesService.deleteCourse(courseId);
+            console.log('courseid', courseId);
+            const courses = this.#courses();
+            console.log(courses);
+            const newCourses = courses.filter(course => course.id !== courseId);
+            console.log('newCours', newCourses);
+            this.#courses.set(newCourses);
+        } catch (err) {
+            console.error(err);
+            alert('error deleting course')
+        }
     }
 
 }

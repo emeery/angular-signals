@@ -46,7 +46,6 @@ export class EditCourseDialogComponent {
     const course = this.form.value as Partial<Course>;
     
     if(this.data.mode === 'update') {
-      console.log('cour',course);
         this.saveCourse(this.data?.course!.id, course); // ! compilador aseguras que haya el objeto siempre existe
     }
   }
