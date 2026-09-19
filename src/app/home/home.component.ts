@@ -5,6 +5,7 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.component";
 import { MatDialog } from "@angular/material/dialog";
 import { openEditCourseDialg } from "../edit-course-dialog/edit-course-dialog.component";
+import { LoadingService } from "../loading/loading.service";
 
 
 @Component({
@@ -20,9 +21,10 @@ import { openEditCourseDialg } from "../edit-course-dialog/edit-course-dialog.co
 export class HomeComponent {
     #courses = signal<Course[]>([]);
     coursesService = inject(CoursesService);
+    loadingService = inject(LoadingService);
     dialog = inject(MatDialog);
     
-    beginnerCourses = computed(() => { // computed - transformar datos y filtrar arreglos
+    beginnerCourses = computed(() => { // transformar datos y filtrar arreglos
         const courses = this.#courses();
         return courses.filter(course => course.category === 'BEGINNER');
     })
@@ -48,7 +50,7 @@ export class HomeComponent {
             this.#courses.set(courses.sort(sortCoursesBySeqNo));
         } catch (err) {
             console.error('Error loading courses:', err);
-        }
+        } 
     }
 
     onCourseUpdated(updateCourse: Course) { // vuelve a renderizar el item actualizado 

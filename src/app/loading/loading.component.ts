@@ -9,7 +9,9 @@ import {LoadingService} from "./loading.service";
     imports: [MatProgressSpinner]
 })
 export class LoadingIndicatorComponent {
-
-
+    loadingService = inject(LoadingService);
+    
+    // loading: Signal<boolean>;
+    loading = this.loadingService.loading;
 
 }
