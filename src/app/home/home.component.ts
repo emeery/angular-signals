@@ -6,6 +6,7 @@ import {CoursesCardListComponent} from "../courses-card-list/courses-card-list.c
 import { MatDialog } from "@angular/material/dialog";
 import { openEditCourseDialg } from "../edit-course-dialog/edit-course-dialog.component";
 import { LoadingService } from "../loading/loading.service";
+import { MessagesService } from "../messages/messages.service";
 
 
 @Component({
@@ -21,7 +22,8 @@ import { LoadingService } from "../loading/loading.service";
 export class HomeComponent {
     #courses = signal<Course[]>([]);
     coursesService = inject(CoursesService);
-    loadingService = inject(LoadingService);
+    // loadingService = inject(LoadingService);
+    messageService = inject(MessagesService);
     dialog = inject(MatDialog);
     
     beginnerCourses = computed(() => { // transformar datos y filtrar arreglos
@@ -49,6 +51,7 @@ export class HomeComponent {
             const courses = await this.coursesService.loadCourses();
             this.#courses.set(courses.sort(sortCoursesBySeqNo));
         } catch (err) {
+            this.messageService.showMessage("error loading courses", "error")
             console.error('Error loading courses:', err);
         } 
     }
