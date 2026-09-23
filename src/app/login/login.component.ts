@@ -14,6 +14,26 @@ import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
     styleUrl: './login.component.scss'
 })
 export class LoginComponent {
+    fb = inject(FormBuilder);
+    messageService = inject(MessagesService);
 
+    form = this.fb.group({
+        email: [''],
+        password: ['']
+    })
 
+    onLogin() {
+        try {
+            const {email, password } = this.form.value;
+            if(!email || !password) {
+                this.messageService.showMessage(
+                    "enter and email & password", "error"
+                );
+            }
+        } catch (err) {
+            this.messageService.showMessage(
+                "login failed, please try again", "error"
+            );
+        }
+    }
 }
