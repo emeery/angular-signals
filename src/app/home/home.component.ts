@@ -22,7 +22,6 @@ import { MessagesService } from "../messages/messages.service";
 export class HomeComponent {
     #courses = signal<Course[]>([]);
     coursesService = inject(CoursesService);
-    // loadingService = inject(LoadingService);
     messageService = inject(MessagesService);
     dialog = inject(MatDialog);
     

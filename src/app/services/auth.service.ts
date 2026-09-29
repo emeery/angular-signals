@@ -13,6 +13,7 @@ const USER_STORAGE_KEY = 'user';
 export class AuthService {
   http = inject(HttpClient);
   env = environment;
+  router = inject(Router);
 
   #userSignal = signal<User | null>(null);
   user = this.#userSignal.asReadonly();
@@ -27,6 +28,11 @@ export class AuthService {
 
     return user;
 
+  }
+
+  async logout() {
+    this.#userSignal.set(null);
+    await this.router.navigateByUrl("/login");
   }
 
 }
