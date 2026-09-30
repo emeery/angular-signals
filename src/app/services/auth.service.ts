@@ -23,6 +23,7 @@ export class AuthService {
   constructor() {
     effect(() => {
       const user = this.user();
+      console.log('user', user);
       if(user) {
         localStorage.setItem(USER_STORAGE_KEY,JSON.stringify(user));
       }
