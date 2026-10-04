@@ -8,7 +8,7 @@
             <p>{{ course.longDescription }}</p>
         </div>
         <div class="courses-actions">
-            <button class="btn" [routerLink]="['courses',course.id]">View Course</button>
+            <button class="btn" [routerLink]="['courses',course.id ]">View Course</button>
             <button class="btn" (click)="onEditCourse(course)">Edit</button>
             &nbsp;
             <button matFab (click)="onCourseDeleted(course)">
