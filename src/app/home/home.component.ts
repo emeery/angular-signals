@@ -1,4 +1,4 @@
-import {Component, computed, inject, signal, effect} from "@angular/core";
+import {Component, computed, inject, signal, effect, viewChild, ElementRef} from "@angular/core";
 import {CoursesService} from "../services/courses.service"
 import {Course, sortCoursesBySeqNo } from "../models/course.model";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
@@ -7,12 +7,14 @@ import { MatDialog } from "@angular/material/dialog";
 import { openEditCourseDialg } from "../edit-course-dialog/edit-course-dialog.component";
 import { LoadingService } from "../loading/loading.service";
 import { MessagesService } from "../messages/messages.service";
+import { MatTooltip } from '@angular/material/tooltip';
 
 
 @Component({
     selector: 'home',
     imports: [
         MatTabGroup,
+        MatTooltip,
         MatTab,
         CoursesCardListComponent
     ],
@@ -24,6 +26,7 @@ export class HomeComponent {
     coursesService = inject(CoursesService);
     messageService = inject(MessagesService);
     dialog = inject(MatDialog);
+    begginerList = viewChild('begginerList',{read: MatTooltip});
     
     beginnerCourses = computed(() => { // transformar datos y filtrar arreglos
         const courses = this.#courses();
@@ -42,6 +45,9 @@ export class HomeComponent {
         // effect(() => {
         //     console.log('courses',this.beginnerCourses());
         // })
+        effect(() => {
+            console.log('begginer list', this.begginerList());
+        })
     }
 
     async loadCourses() {
