@@ -1,10 +1,12 @@
 
 <div class="form-control">
 
-  <label></label>
+  <label>
+    {{ label() }}
+  </label>
 
-  <select  #category>
-    <option value="BEGINNER">Beginners</option>
+  <select [value]="value()"  #category>
+    <option value="BEGINNER">Begin ners</option>
     <option value="INTERMEDIATE">Intermediate</option>
     <option value="ADVANCED">Advanced</option>
   </select>
