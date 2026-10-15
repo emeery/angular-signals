@@ -28,7 +28,7 @@ export class HomeComponent {
     dialog = inject(MatDialog);
     begginerList = viewChild('begginerList',{read: MatTooltip});
     
-    beginnerCourses = computed(() => { // transformar datos y filtrar arreglos
+    beginnerCourses = computed(() => {
         const courses = this.#courses();
         return courses.filter(course => course.category === 'BEGINNER');
     })

@@ -18,7 +18,7 @@ export class LessonsComponent {
     selectedLesson = signal<Lesson | null>(null);
     lessonService = inject(LessonsService);
     
-      // required - garantiza que la instancia estará disponible sin usar afterViewInit 
+      // required garantiza que la instancia estará disponible sin usar afterViewInit 
     searchInput = viewChild.required<ElementRef>('search');
 
     onSearch() {
