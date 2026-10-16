@@ -25,26 +25,35 @@ export class EditCourseDialogComponent {
   dialogRef = inject(MatDialogRef);
   fb = inject(FormBuilder);
   courseService = inject(CoursesService);
+  category = signal<CourseCategory>("BEGINNER");
 
   form = this.fb.group({
       title: [''],
       longDescription: [''],
-      category: [''],
+      //category: [''],
       iconUrl: ['']
   });
+
+  
 
   constructor() {
     this.form.patchValue({
       title: this.data.course?.title,
       longDescription: this.data.course?.longDescription,
-      category: this.data.course?.category,
+      //category: this.data.course?.category,
       iconUrl: this.data.course?.iconUrl
-    })
+    });
+    this.category.set(this.data.course!.category);
+
+    effect(() => {
+    console.log('category', this.category());
+  })
   }
 
   async onSave() {
     const course = this.form.value as Partial<Course>;
-    
+    course.category = this.category();
+
     if(this.data.mode === "update") {
         await this.saveCourse(this.data?.course!.id, course); // ! compilador aseguras que haya el objeto siempre existe
         

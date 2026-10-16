@@ -5,7 +5,7 @@
     {{ label() }}
   </label>
 
-  <select [value]="value()"  #category>
+  <select [value]="value()" (change)="onChangeCategory(category.value)" #category>
     <option value="BEGINNER">Begin ners</option>
     <option value="INTERMEDIATE">Intermediate</option>
     <option value="ADVANCED">Advanced</option>
