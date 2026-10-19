@@ -25,7 +25,9 @@
   }
 }
 @else {
-    <lesson-detail [lesson]="selectedLesson()"
+    <lesson-detail 
+    [lesson]="selectedLesson()"
+    (lessonUpdated)="onLessonUpdated($event)"
     (cancel)="onCancel()"
     />
 }

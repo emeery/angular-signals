@@ -33,7 +33,12 @@ export class LessonsComponent {
         this.selectedLesson.set(lesson);
     }
 
+    onLessonUpdated(lesson: Lesson) {
+        this.lessons.update(less => less.map(l => l.id === lesson.id ? lesson : l ));
+    }
+
     onCancel() {
         this.mode.set("master")
     }
 }
+ 
