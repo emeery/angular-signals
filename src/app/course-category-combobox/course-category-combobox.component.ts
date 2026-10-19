@@ -1,4 +1,4 @@
-import {Component, input, model} from '@angular/core';
+import {Component, contentChild, contentChildren, effect, ElementRef, input, model} from '@angular/core';
 import {CourseCategory} from "../models/course-category.model";
 
 @Component({
@@ -9,8 +9,16 @@ import {CourseCategory} from "../models/course-category.model";
   styleUrl: './course-category-combobox.component.scss'
 })
 export class CourseCategoryComboboxComponent {
-  label = input.required<string>();
+  //label = input.required<string>();
   value = model.required<CourseCategory>();
+  // title = contentChild<ElementRef>("title"); // un referencia
+  titles = contentChildren<ElementRef>("title") // todas las referencias 
+
+  constructor() {
+    effect(()=> {
+      console.log('title',this.titles());
+    })
+  }
   
   onChangeCategory(value: string) {
     console.log('c',value);

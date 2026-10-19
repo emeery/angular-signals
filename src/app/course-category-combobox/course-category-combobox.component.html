@@ -1,9 +1,10 @@
 
 <div class="form-control">
 
-  <label>
+  <!-- <label>
     {{ label() }}
-  </label>
+  </label> -->
+  <ng-content select=".title"/>
 
   <select [value]="value()" (change)="onChangeCategory(category.value)" #category>
     <option value="BEGINNER">Begin ners</option>
