@@ -21,8 +21,19 @@ export class LessonsComponent {
       // required garantiza que la instancia estará disponible sin usar afterViewInit 
     searchInput = viewChild.required<ElementRef>('search');
 
-    onSearch() {
+    async onSearch() {
         const query = this.searchInput()?.nativeElement.value;
-        console.log('query', query);
+        const results = await this.lessonService.loadLessons({query});
+        this.lessons.set(results);
+    }
+
+    onLessonSelected(lesson: Lesson) {
+        console.log('lessn', lesson);
+        this.mode.set("detail");
+        this.selectedLesson.set(lesson);
+    }
+
+    onCancel() {
+        this.mode.set("master")
     }
 }
